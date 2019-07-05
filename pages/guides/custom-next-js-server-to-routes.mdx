@@ -14,7 +14,7 @@ export const meta = {
   authors: ['timothy', 'timneutkens'],
   url: '/guides/custom-next-js-server-to-routes',
   editUrl: 'pages/guides/custom-next-js-server-to-routes.mdx',
-  lastEdited: '2019-05-17T13:47:55.000Z'
+  lastEdited: '2019-07-05T20:04:45.000Z'
 }
 
 Next.js offers developers [a built-in routing system](https://nextjs.org/docs/#routing) that allows you to link to other pages whilst also giving those pages a custom URL. When a user refreshes the custom URL, however, the browser will not be able to load the link because the page was previously routed client-side. To resolve this, we need to also handle routing server-side.
@@ -51,37 +51,13 @@ server.get('/products/:name', (req, res) => {
 
 ### The New Routes Method
 
-With [Now 2.0](https://zeit.co/docs/v2/platform/upgrade-to-2-0/) and the serverless approach, each [Next.js page](https://zeit.co/docs/v2/deployments/official-builders/next-js-now-next/) is a separate entry point, making the sole custom server entry point a thing of the past for the good of performance and stability. Fortunately, Now 2.0 offers a solution, by way of the `routes` configuration.
+With [Now](https://zeit.co/now) and the serverless approach, each [Next.js page](https://nextjs.org/docs#routing) is a separate entry point, making the sole custom server entry point a thing of the past for the good of performance and stability. Fortunately, **Now 2.0 offers a solution**, handling the configuration of routes for you.
 
-The following [`now.json` configuration](/docs/v2/deployments/configuration) enables the deployment to use the [Now platform version 2.0](https://zeit.co/docs/v2/platform/overview/#versioning) and defines [the routes](/docs/v2/deployments/configuration#routes) that the deployment should acknowledge when receiving a request to an entry point.
-
-```json
-{
-  "version": 2,
-  "routes": [
-    { "src": "/product/(?<name>[^/]+)$", "dest": "/product?name=$name" }
-  ]
-}
-```
-
-<Caption>
-  Using Now 2.0 routes configuration to rewrite URLs to the rendered Next.js
-  page with an embedded capture group to route query parameters.
-</Caption>
-
-<Note>
-  The above example <InlineCode>now.json</InlineCode> file does not include a
-  builds option which is necessary for building a Next.js application with Now.
-  Please see{' '}
-  <GenericLink href="/docs/v2/deployments/official-builders/next-js-now-next/#how-to-use-it">
-    the Next.js Builder documentation
-  </GenericLink>{' '}
-  for more information.
-</Note>
+By making use of Next.js path segments with Now, [dynamic routing](https://nextjs.org/docs#routing) is achieved through the file structure. No longer are custom servers or additional configuration required, **simplifying the process of building your application significantly**.
 
 ## By Example
 
-If you are yet to set up routing for [your Next.js app](https://nextjs.org/docs/#setup), this brief example describes how to use Next.js routing with Now `routes` to support custom URLs.
+If you are yet to set up routing for [your Next.js app](https://nextjs.org/docs/#setup), this brief example describes how to use Next.js routing with [Now](https://zeit.co/now) to support custom URLs.
 
 ### Step 1: Defining Pages
 
@@ -97,7 +73,7 @@ export default () => (
     <h1>Welcome to our Next.js website!</h1>
     <p>
       View our{' '}
-      <Link href="/product?name=espresso">
+      <Link href="/product/espresso">
         <a>espresso product</a>
       </Link>
       !
@@ -106,13 +82,17 @@ export default () => (
 )
 ```
 
+<Caption>
+  An example <InlineCode>index.js</InlineCode> file for our example project.
+</Caption>
+
 <Note>
   In a real application, the product name query parameter would most likely be
   dynamic based on other factors, but for simplicity, we'll use "espresso" as
   the product name.
 </Note>
 
-Next, for our link to work, we need to create a `product.js` file in our `pages` directory. This page displays the query parameter, which we receive with the [Next.js `getInitialProps` lifecycle method](https://nextjs.org/docs/#fetching-data-and-component-lifecycle), as the title and a simple paragraph:
+Next, for our link to work, we need to create a `/product` directory inside of `/pages`, then a `[name].js` file inside of `/product`. This page displays the query parameter, which we receive with the [Next.js `getInitialProps` lifecycle method](https://nextjs.org/docs/#fetching-data-and-component-lifecycle), as the title and a simple paragraph:
 
 ```jsx
 const Product = ({ name }) => (
