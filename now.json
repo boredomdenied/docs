@@ -104,6 +104,11 @@
       "status": 301,
       "headers": { "Location": "/examples/express" }
     },
+    {
+      "src": "/guides/handling-node-request-body-with-micro",
+      "status": 301,
+      "headers": { "Location": "/guides/handling-node-request-body" }
+    },
     { "src": "(.*)", "dest": "$1" }
   ]
 }
