@@ -8,6 +8,6 @@ pages/docs/v2/network/                    @juancampa @hharnisc @dav-is
 pages/docs/v2/domains-and-aliases/        @anatrajkovska @javivelasco @mglagola
 pages/docs/v2/getting-started/            @joecohens @paulogdm @msweeneydev @timothyis @skllcrn @coetry
 pages/docs/v2/integrations/               @arunoda
-pages/docs/v2/platform/                   @leo
+pages/docs/v2/platform/                   @leo @styfle
 pages/docs/v2/deployments/                @leo @AndyBitz @TooTallNate @styfle @sophearak
 pages/docs/api/                           @anatrajkovska @arunoda @javivelasco @mglagola
